@@ -1,0 +1,44 @@
+{{- /*
+  覆盖主题的 layouts/_partials/widget/archives.html
+
+  改动：没有文章时不渲染这个部件。
+  主题原版会渲染出一个空的白色框（没有年份可列），看起来像页面坏了。
+  等发布第一篇带日期的文章后，这个部件会自动出现。
+*/ -}}
+
+{{- $query := first 1 (where .Context.Site.Pages "Layout" "==" "archives") -}}
+{{- $context := .Context -}}
+{{- $limit := default 5 .Params.limit -}}
+{{- $pages := partial "helper/pages.html" $context.Site.Home -}}
+
+{{- if and $query $pages -}}
+    {{- $archivesPage := index $query 0 -}}
+    <section class="widget archives">
+        <div class="widget-icon">
+            {{ partial "helper/icon" "infinity" }}
+        </div>
+        <h2 class="widget-title section-title">
+            <a href="{{ $archivesPage.RelPermalink }}">
+                {{ T "widget.archives.title" }}
+            </a>
+        </h2>
+
+        {{ $archives := $pages.GroupByDate "2006" }}
+
+        <div class="widget-archive--list">
+            {{ range $index, $item := first (add $limit 1) ($archives) }}
+                {{- $id := lower (replace $item.Key " " "-") -}}
+                <div class="archives-year">
+                    <a href="{{ $archivesPage.RelPermalink }}#{{ $id }}">
+                        {{ if eq $index $limit }}
+                            <span class="year">{{ T "widget.archives.more" }}</span>
+                        {{ else }}
+                            <span class="year">{{ .Key }}</span>
+                            <span class="count">{{ len $item.Pages }}</span>
+                        {{ end }}
+                    </a>
+                </div>
+            {{ end }}
+        </div>
+    </section>
+{{- end -}}

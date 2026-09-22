@@ -1,0 +1,64 @@
+# ─────────────────────────────────────────────────────────────
+#  站点主配置
+# ─────────────────────────────────────────────────────────────
+#  baseURL：改成你站点最终的访问地址，末尾必须带 /
+#
+#  用「用户名域名仓库」（仓库名 = 用户名.github.io）时这样写：
+#      baseURL = "https://你的用户名.github.io/"
+#  访问地址就是 https://你的用户名.github.io/（根路径，无子目录）
+#
+#  用普通项目仓库（仓库名 = my-blog）时这样写：
+#      baseURL = "https://你的用户名.github.io/my-blog/"
+#
+#  说明：GitHub Actions 部署时会用真实地址自动覆盖这个值，
+#  所以填错也能部署成功；但本地预览和 RSS 里的链接要靠它，建议填对。
+# ─────────────────────────────────────────────────────────────
+
+baseURL = "https://yhy-cst.github.io/"
+title   = "我的博客"
+theme   = "hugo-theme-stack"
+
+# 中文站点必须设为 zh-cn
+defaultContentLanguage = "zh-cn"
+
+# 中文内容需要开启，否则 .Summary / .WordCount 会算错
+hasCJKLanguage = true
+
+# 时区
+timeZone = "Asia/Shanghai"
+
+# 首页文章默认每页几篇
+[pagination]
+    pagerSize = 5
+
+# 文章与页面的固定链接格式
+[permalinks]
+    post = "/p/:slug/"
+    page = "/:slug/"
+
+# ── 语法高亮 ──
+[markup.highlight]
+    noClasses          = false
+    codeFences         = true
+    guessSyntax        = true
+    lineNoStart        = 1
+    lineNos            = true
+    lineNumbersInTable = true
+    tabWidth           = 4
+
+# ── 目录 ──
+[markup.tableOfContents]
+    startLevel = 2
+    endLevel   = 4
+    ordered    = true
+
+# ── 数学公式（\$...\$ 与 \$\$...\$\$）──
+[markup.goldmark.extensions.passthrough]
+    enable = true
+    [markup.goldmark.extensions.passthrough.delimiters]
+        block  = [["\\[", "\\]"], ["$$", "$$"]]
+        inline = [["\\(", "\\)"], ["$", "$"]]
+
+# 允许在 Markdown 里直接写 HTML
+[markup.goldmark.renderer]
+    unsafe = true

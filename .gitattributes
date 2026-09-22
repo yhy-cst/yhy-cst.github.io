@@ -1,0 +1,20 @@
+# 统一换行符，避免 Windows / macOS / Linux 协作时整文件 diff
+# 文本文件在仓库里统一存成 LF，检出时按各系统自动处理
+* text=auto eol=lf
+
+# 明确按二进制处理，不要做换行转换
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.webp binary
+*.ico  binary
+*.woff binary
+*.woff2 binary
+*.ttf  binary
+
+# 字体文件在 GitHub 语言统计里容易被误算成大头，标记为文档
+static/vendor/katex/fonts/* linguist-vendored
+
+# 主题是第三方代码，不计入本站语言统计
+themes/* linguist-vendored

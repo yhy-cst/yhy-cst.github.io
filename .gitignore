@@ -1,0 +1,25 @@
+# 构建产物
+/public/
+/resources/_gen/
+/hugo_stats.json
+
+# Hugo 缓存
+.hugo_build.lock
+
+# Hugo 编译 TS 时自动生成的编辑器配置
+/assets/jsconfig.json
+
+# 图片原始素材（已处理进 assets/img/，源文件不必提交）
+# 如果你想把原图也一起备份，注释掉下面这行
+/originals/
+
+# 编辑器与系统
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# 如果不想把主题源码提交进仓库，取消下面这行的注释
+# 改用 git submodule 引入主题（见 README）
+# /themes/

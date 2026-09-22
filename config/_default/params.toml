@@ -1,0 +1,119 @@
+# ─────────────────────────────────────────────────────────────
+#  主题参数（Stack 主题）
+# ─────────────────────────────────────────────────────────────
+#
+#  注意：TOML 里「顶层键」必须写在任何 [表头] 之前。
+#  一旦写了 [dateFormat] 这类表头，后面的裸键都会归属到那张表里，
+#  所以 favicon / mainSections 这些必须放在最上面。
+# ─────────────────────────────────────────────────────────────
+
+# 用哪个 section 作为文章列表
+mainSections   = ["post"]
+rssFullContent = true
+
+# 站点图标（放在 assets/img/ 里）
+favicon = "img/favicon.png"
+
+# 日期显示格式（Go 时间格式：2006=年 1=月 2=日 15:04=时分）
+[dateFormat]
+    published   = "2006年1月2日"
+    lastUpdated = "2006年1月2日 15:04"
+
+# ── 首页横幅大图 ──
+# 放在 assets/img/ 里，首页顶部显示。image 留空则不显示。
+[homeBanner]
+    image    = "img/home-banner.jpg"
+    # 高度（px），桌面端；手机上会自动变矮
+    height   = 260
+    # 图片焦点位置，用来决定裁掉哪一边：center / top / bottom
+    position = "center"
+    # 大图上的标题，留空则用站点标题
+    title    = ""
+    # 大图上的副标题，留空则不显示
+    subtitle = ""
+
+# ── 页脚 ──
+[footer]
+    # 建站年份。与当前年份相同则只显示一个年份（© 2026），
+    # 之后跨年了会自动变成区间（© 2026 - 2027），不用手动改。
+    since = 2026
+    customText = ""
+
+# ── 左栏个人信息 ──
+[sidebar]
+    # 头像，放在 assets/img/ 里
+    avatar = "img/avatar.jpg"
+    # 头像右下角的 emoji 小挂件（留空则不显示）
+    emoji = ""
+    # 副标题（一句话简介）
+    subtitle = "记录学习与折腾的地方"
+    # 紧凑模式：头像与菜单更小
+    compact = false
+
+# ── 文章页 ──
+[article]
+    headingAnchor = true
+    # 数学公式：true = 所有文章都加载 KaTeX（$...$ 与 $$...$$）
+    # 若只想在需要的文章里渲染，改为 false，并在那篇文章 frontmatter 加 math: true
+    math          = true
+    toc           = true
+    readingTime   = true
+
+    [article.list]
+        # 列表页是否显示标签
+        showTags = false
+
+    [article.license]
+        enabled = true
+        default = "本文采用 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) 许可协议，转载请注明出处。"
+
+# ── 首页右侧栏小部件 ──
+[widgets]
+    homepage = [
+        { type = "search" },
+        { type = "archives", params = { limit = 5 } },
+        { type = "categories", params = { limit = 10 } },
+        { type = "tag-cloud", params = { limit = 15 } },
+    ]
+    # 文章页右侧栏
+    page = [{ type = "toc" }]
+
+# ── 配色 ──
+[colorScheme]
+    toggle  = true
+    default = "auto"   # auto / light / dark
+
+# ── 图片处理 ──
+[imageProcessing]
+    autoOrient = false
+    [imageProcessing.content]
+        widths  = [800, 1600, 2400]
+        enabled = true
+    [imageProcessing.thumbnail]
+        enabled = true
+
+# ── 评论（可选，先在 config 里填好再打开）──
+[comments]
+    enabled  = false
+    provider = "waline"
+
+    [comments.waline]
+        serverURL    = ""
+        lang         = "zh-CN"
+        pageview     = false
+        emoji        = ["https://unpkg.com/@waline/emojis@1.0.1/weibo"]
+        requiredMeta = ["nick", "mail"]
+
+    [comments.giscus]
+        repo             = ""
+        repoID           = ""
+        category         = "Announcements"
+        categoryID       = ""
+        mapping          = "pathname"
+        lightTheme       = "light"
+        darkTheme        = "dark_dimmed"
+        reactionsEnabled = 1
+        emitMetadata     = 0
+        inputPosition    = "top"
+        lang             = "zh-CN"
+        loading          = "lazy"

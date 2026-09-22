@@ -1,0 +1,39 @@
+{{- /*
+  覆盖主题的 layouts/_partials/article/components/math.html
+
+  与主题原版的区别：
+    1. KaTeX 改为自托管（文件在 static/vendor/katex/），不再依赖 jsdelivr CDN
+       —— CDN 在国内常不可访问，会导致公式渲染不出来。
+    2. 资源路径用 relURL 生成，部署到子路径（如 GitHub Pages 项目页）时也正确。
+
+  渲染逻辑与主题一致：支持 $...$、$$...$$、\(...\)、\[...\]。
+*/ -}}
+
+{{- $katexCSS := "vendor/katex/katex.min.css" | relURL -}}
+{{- $katexJS := "vendor/katex/katex.min.js" | relURL -}}
+{{- $autoRenderJS := "vendor/katex/auto-render.min.js" | relURL -}}
+
+<link rel="stylesheet" href="{{ $katexCSS }}">
+<script defer src="{{ $katexJS }}"></script>
+<script defer src="{{ $autoRenderJS }}"></script>
+
+<script>
+    window.addEventListener("DOMContentLoaded", () => {
+        const elementsToRender = [".main-article", ".widget--toc"];
+
+        elementsToRender.forEach(selector => {
+            const element = document.querySelector(selector);
+            if (element) {
+                renderMathInElement(element, {
+                    delimiters: [
+                        { left: "$$", right: "$$", display: true },
+                        { left: "$", right: "$", display: false },
+                        { left: "\\(", right: "\\)", display: false },
+                        { left: "\\[", right: "\\]", display: true }
+                    ],
+                    ignoredClasses: ["gist"]
+                });
+            }
+        });
+    });
+</script>

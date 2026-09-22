@@ -1,0 +1,53 @@
+{{- /*
+  覆盖主题的 layouts/home.html
+
+  与主题原版的区别：在文章列表上方加了一个首页横幅大图。
+  横幅图片与参数在 config/_default/params.toml 的 [homeBanner] 里配置。
+  不需要横幅时，把 image 留空即可（不会渲染任何东西）。
+
+  其余结构与主题保持一致：分页、文章列表、页脚、右侧栏。
+*/ -}}
+
+{{ define "main" }}
+    {{- $banner := .Site.Params.homeBanner -}}
+    {{- with $banner.image -}}
+        {{- $img := partial "helper/image" (dict "Image" . "Resources" resources "Context" $) -}}
+        {{- with $img -}}
+        <section class="home-banner" style="--banner-height: {{ default 260 $banner.height }}px; --banner-position: {{ default "center" $banner.position }};">
+            <img
+                src="{{ .Permalink }}"
+                width="{{ .Width }}"
+                height="{{ .Height }}"
+                alt="{{ default $.Site.Title $banner.title }}"
+                fetchpriority="high"
+                decoding="async"
+            />
+            {{- if or $banner.title $banner.subtitle -}}
+            <div class="home-banner-content">
+                {{- with $banner.title -}}
+                    <p class="home-banner-title">{{ . }}</p>
+                {{- end -}}
+                {{- with $banner.subtitle -}}
+                    <p class="home-banner-subtitle">{{ . }}</p>
+                {{- end -}}
+            </div>
+            {{- end -}}
+        </section>
+        {{- end -}}
+    {{- end -}}
+
+    {{- $paginator := partial "helper/paginator.html" . -}}
+
+    <section class="article-list">
+        {{ range $index, $element := $paginator.Pages }}
+            {{ partial "article-list/default" . }}
+        {{ end }}
+    </section>
+
+    {{- partial "pagination.html" . -}}
+    {{- partial "footer/footer" . -}}
+{{ end }}
+
+{{ define "right-sidebar" }}
+    {{ partial "sidebar/right.html" (dict "Context" . "Scope" "homepage") }}
+{{ end }}

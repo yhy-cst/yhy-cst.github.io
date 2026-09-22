@@ -1,0 +1,530 @@
+/* ═══════════════════════════════════════════════════════════════
+   自定义视觉方案
+   ───────────────────────────────────────────────────────────────
+   主题默认用的是 2013 年 Flat UI 调色板（#34495e 湿沥青蓝）
+   配 #f5f5fa 发灰淡紫背景，整体偏旧。
+   这里换成中性冷灰底 + 靛蓝强调色 + 更柔和的圆角与阴影。
+
+   覆盖方式说明：
+     主题的浅色变量写在 :root 里，深色变量写在 :root[data-scheme="dark"] 里。
+     本文件在主题之后加载，所以同权重下后写的生效；
+     深色必须用同样的 [data-scheme="dark"] 选择器才能压过主题。
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── 浅色配色 ────────────────────────────────────────────── */
+:root,
+:root[data-scheme="light"] {
+    --body-background: #f5f6f8;
+    --body-text-color: #475467;
+
+    --accent-color: #4f46e5;
+    --accent-color-darker: #4338ca;
+    --accent-color-text: #ffffff;
+
+    --card-background: #ffffff;
+    --card-background-selected: #eef0f3;
+    --card-text-color-main: #101828;
+    --card-text-color-secondary: #475467;
+    --card-text-color-tertiary: #667085;
+    --card-separator-color: rgba(16, 24, 40, 0.08);
+
+    --card-border-radius: 14px;
+    --tag-border-radius: 999px;
+
+    /* 卡片描边用单独的变量，方便深浅色分别调 */
+    --card-border: 1px solid rgba(16, 24, 40, 0.06);
+
+    --shadow-l1: 0 1px 2px rgba(16, 24, 40, 0.04),
+        0 4px 12px rgba(16, 24, 40, 0.04);
+    --shadow-l2: 0 4px 8px rgba(16, 24, 40, 0.06),
+        0 16px 32px rgba(16, 24, 40, 0.09);
+
+    /* 正文里链接的下划线底色 */
+    --link-background-color: 79, 70, 229;
+    --link-background-opacity: 0.16;
+    --link-background-opacity-hover: 0.28;
+}
+
+/* ── 深色配色 ────────────────────────────────────────────── */
+:root[data-scheme="dark"] {
+    --body-background: #0e1013;
+    --body-text-color: #a9b0ba;
+
+    --accent-color: #a5b4fc;
+    --accent-color-darker: #c7d2fe;
+    --accent-color-text: #0e1013;
+
+    --card-background: #17191d;
+    --card-background-selected: #23262c;
+    --card-text-color-main: #f2f4f7;
+    --card-text-color-secondary: #b6bcc6;
+    --card-text-color-tertiary: #8b929e;
+    --card-separator-color: rgba(255, 255, 255, 0.08);
+
+    --card-border: 1px solid rgba(255, 255, 255, 0.07);
+
+    --shadow-l1: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.3);
+    --shadow-l2: 0 4px 8px rgba(0, 0, 0, 0.4), 0 16px 32px rgba(0, 0, 0, 0.45);
+
+    --link-background-color: 165, 180, 252;
+    --link-background-opacity: 0.2;
+    --link-background-opacity-hover: 0.34;
+}
+
+/* ── 排版 ────────────────────────────────────────────────── */
+:root {
+    /* 阅读区字体：西文 Times New Roman，中文仿宋
+       浏览器按顺序找字形：西文在 Times 里命中，中文 Times 没有字形，
+       自动落到后面的仿宋。所以 Times 必须排在前面。 */
+    --reading-font: "Times New Roman", Times, "Liberation Serif", "Nimbus Roman",
+        "FangSong", "仿宋", "FangSong_GB2312", "STFangsong", "Songti SC",
+        "Noto Serif CJK SC", serif;
+
+    /* 界面字体：无衬线，用于菜单、侧栏、标签等 UI 元素 */
+    --ui-font: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+        "Source Han Sans SC", "Noto Sans CJK SC", "WenQuanYi Micro Hei", sans-serif;
+
+    /* 等宽字体：代码专用 */
+    --mono-font: "JetBrains Mono", "Cascadia Code", "Fira Code", Consolas,
+        Menlo, Monaco, "Courier New", monospace;
+
+    --base-font-family: var(--ui-font);
+    --article-font-family: var(--reading-font);
+
+    --article-font-size: 1.7rem;
+    --article-line-height: 1.85;
+
+    /* 菜单图标与文字的间距，主题默认 40px 太散 */
+    --menu-icon-separation: 16px;
+}
+
+/* 阅读区用衬线：正文、文章标题与摘要、正文内的各级标题 */
+.article-content,
+.article-content h1,
+.article-content h2,
+.article-content h3,
+.article-content h4,
+.article-content h5,
+.article-content h6,
+.article-content p,
+.article-content li,
+.article-content td,
+.article-content th,
+.article-content dd,
+.article-content dt,
+.article-title,
+.article-subtitle {
+    font-family: var(--reading-font);
+}
+
+/* 界面元素保持无衬线，衬线字用在按钮/菜单上会显脏 */
+body,
+.site-name,
+.site-description,
+.section-title,
+.article-meta,
+.article-meta time,
+.article-meta a,
+.article-meta span,
+#main-menu,
+.widget,
+#dark-mode-toggle,
+.pagination,
+.copyright,
+.powerby {
+    font-family: var(--ui-font);
+}
+
+/* 代码：等宽。特异性要够高，且写在阅读区规则之后 */
+.article-content code,
+.article-content pre,
+.article-content pre code,
+.article-content kbd,
+.article-content samp,
+.article-content .highlight,
+.article-content .highlight pre,
+.article-content .highlight code,
+code,
+pre,
+.highlight,
+kbd {
+    font-family: var(--mono-font);
+}
+
+/* 公式交给 KaTeX 自己的字体，这里只做兜底保护。
+   KaTeX 的 CSS 会显式声明 .katex 的 font-family，优先级高于继承，
+   正常情况下不会被上面的阅读区字体影响。 */
+.article-content .katex,
+.article-content .katex-display,
+.article-content .katex .mathnormal,
+.article-content .katex .mord,
+.article-content .katex .mop,
+.article-content .katex .mbin,
+.article-content .katex .mrel,
+.article-content .katex .mopen,
+.article-content .katex .mclose,
+.article-content .katex .mpunct,
+.article-content .katex .minner {
+    font-family: KaTeX_Main, "Times New Roman", Times, serif;
+}
+
+.article-content .katex .mathdefault,
+.article-content .katex .mathnormal {
+    font-family: KaTeX_Math, "Times New Roman", Times, italic, serif;
+}
+
+.article-content .katex .mathrm {
+    font-family: KaTeX_Main, "Times New Roman", Times, serif;
+}
+
+/* 标题收紧字距，中文标题更紧凑好看 */
+.article-title,
+.article-content h1,
+.article-content h2,
+.article-content h3,
+.article-content h4,
+.site-name {
+    letter-spacing: -0.01em;
+}
+
+.article-title {
+    font-weight: 700;
+}
+
+/* 仿宋没有真正的粗体字重，浏览器合成的假粗会糊。
+   标题改用较重的字重 + 稍大字号来拉开层次。 */
+.article-content h2,
+.article-content h3 {
+    font-weight: 700;
+}
+
+.article-content {
+    line-height: var(--article-line-height);
+}
+
+/* 正文段落之间留出呼吸感（仿宋行距密） */
+.article-content p {
+    margin-top: 0;
+    margin-bottom: 1.2em;
+}
+
+/* ── 侧栏小标题：去掉粗重感，改成细体 + 字距 ──────────────── */
+.section-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--card-text-color-tertiary);
+    margin-bottom: var(--spacing-md);
+}
+
+/* 侧栏部件图标比标题大太多会抢层次，收小一点 */
+.widget .widget-icon svg {
+    width: 24px;
+    height: 24px;
+    stroke-width: 1.7;
+    color: var(--card-text-color-secondary);
+}
+
+/* ── 卡片：加一道极细描边，比纯阴影更利落 ────────────────── */
+.article-list article,
+.article-list--compact,
+.article-list--tile article,
+.widget.archives .widget-archive--list,
+.search-form {
+    border: var(--card-border);
+}
+
+/* 卡片 hover 时轻微上浮 */
+.article-list article,
+.article-list--tile article {
+    transition: box-shadow 0.28s ease, transform 0.28s ease;
+
+    &:hover {
+        transform: translateY(-2px);
+    }
+}
+
+/* ── 分类 / 标签：统一成药丸形 ───────────────────────────── */
+.article-category a,
+.article-tags a {
+    padding: 5px 14px;
+    border-radius: var(--tag-border-radius);
+    font-size: 1.3rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+}
+
+/* 标签云：去掉漂浮白块，改成描边药丸 */
+.tagCloud .tagCloud-tags a {
+    background-color: transparent;
+    border: var(--card-border);
+    border-radius: var(--tag-border-radius);
+    padding: 6px 16px;
+    color: var(--card-text-color-secondary);
+    font-size: 1.35rem;
+    transition: all 0.24s ease;
+
+    &:hover {
+        color: var(--accent-color);
+        border-color: color-mix(in srgb, var(--accent-color) 45%, transparent);
+        background-color: color-mix(in srgb, var(--accent-color) 8%, transparent);
+        box-shadow: none;
+    }
+}
+
+/* ── 侧栏头像：加一圈背景色描边，视觉上更"浮"出来 ─────────── */
+.site-avatar .site-logo {
+    box-shadow: 0 0 0 4px var(--card-background), var(--shadow-l1);
+}
+
+/* ── 左侧菜单 ────────────────────────────────────────────── */
+#main-menu li a {
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+#main-menu li a:hover {
+    color: var(--accent-color);
+}
+
+#main-menu li:not(.current) a:hover svg {
+    transform: translateX(2px);
+}
+
+#main-menu li svg {
+    transition: transform 0.2s ease;
+}
+
+/* 当前页菜单项：用浅色药丸底突出，而不是只加粗 */
+#main-menu li.current a {
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+/* 社交图标 */
+.menu-social a {
+    display: inline-flex;
+    transition: transform 0.2s ease;
+}
+
+.menu-social a:hover {
+    transform: translateY(-2px);
+}
+
+.menu-social svg {
+    transition: stroke 0.2s ease;
+}
+
+.menu-social a:hover svg {
+    stroke: var(--accent-color);
+}
+
+/* ── 搜索框 ──────────────────────────────────────────────── */
+.search-form {
+    border-radius: var(--card-border-radius);
+}
+
+.search-form input {
+    color: var(--card-text-color-main);
+}
+
+.search-form input::placeholder {
+    color: var(--card-text-color-tertiary);
+}
+
+/* ── 文章正文细节 ────────────────────────────────────────── */
+/* 引用块：浅灰底改成带主色倾向的淡底，左侧竖线用主色 */
+:root {
+    --blockquote-background-color: color-mix(in srgb, var(--accent-color) 5%, transparent);
+}
+
+:root[data-scheme="dark"] {
+    --blockquote-background-color: color-mix(in srgb, var(--accent-color) 10%, transparent);
+}
+
+.article-content blockquote {
+    border-inline-start: 3px solid color-mix(in srgb, var(--accent-color) 55%, transparent);
+    border-radius: 0 10px 10px 0;
+}
+
+.article-content a.link {
+    border-radius: 3px;
+}
+
+.article-content pre,
+.article-content .highlight,
+.article-content table {
+    border-radius: 10px;
+}
+
+.article-content img {
+    border-radius: 10px;
+}
+
+/* ── 右侧目录：默认低调，悬停/当前小节才点亮 ─────────────── */
+.toc-nav {
+    li {
+        /* 主题默认每条上下各 15px，7 条就拉得很长，收紧一些 */
+        margin-top: var(--spacing-sm);
+        margin-bottom: var(--spacing-sm);
+    }
+
+    li a {
+        color: var(--card-text-color-secondary);
+        font-size: 1.4rem;
+        display: inline-block;
+        padding: 2px 0;
+        border-radius: 4px;
+        transition: color 0.2s ease;
+    }
+
+    li a:hover {
+        color: var(--accent-color);
+    }
+
+    li.active-class > a {
+        color: var(--accent-color);
+        font-weight: 600;
+    }
+}
+
+/* 目录里的序号用弱化色，不跟标题抢注意力 */
+.toc-nav ol li a:first-of-type::before {
+    color: var(--card-text-color-tertiary);
+    font-weight: 500;
+}
+
+/* ── 首页横幅大图 ────────────────────────────────────────── */
+.home-banner {
+    position: relative;
+    border-radius: var(--card-border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-l1);
+    /* 高度由 params.toml 的 homeBanner.height 通过内联变量传入 */
+    height: var(--banner-height, 260px);
+    margin-bottom: var(--section-separation);
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        /* 焦点位置由 params.toml 的 homeBanner.position 决定 */
+        object-position: var(--banner-position, center);
+        display: block;
+    }
+
+    /* 图上压字时的渐变遮罩，保证文字可读 */
+    .home-banner-content {
+        position: absolute;
+        inset: auto 0 0 0;
+        padding: var(--spacing-2xl) var(--card-padding) var(--spacing-xl);
+        background: linear-gradient(
+            to top,
+            rgba(0, 0, 0, 0.62) 0%,
+            rgba(0, 0, 0, 0.32) 45%,
+            transparent 100%
+        );
+        color: #fff;
+    }
+
+    .home-banner-title {
+        margin: 0;
+        font-family: var(--ui-font);
+        font-size: 2.4rem;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+    }
+
+    .home-banner-subtitle {
+        margin: var(--spacing-xs) 0 0;
+        font-family: var(--ui-font);
+        font-size: 1.5rem;
+        opacity: 0.92;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+    }
+}
+
+/* 手机上横幅矮一些，避免占掉整屏 */
+@media (max-width: 640px) {
+    .home-banner {
+        height: calc(var(--banner-height, 260px) * 0.62);
+        margin-bottom: var(--spacing-2xl);
+    }
+}
+
+/* ── 归档页顶部的分类卡片 ────────────────────────────────── */
+/* 没配封面的分类，主题会渲染成一个 250x150 的空白块，很难看。
+   这里改成带主色淡底的紧凑卡片，标题居中。 */
+.article-list--tile article:not(.has-image) {
+    height: auto;
+    min-height: 84px;
+    background-color: color-mix(in srgb, var(--accent-color) 7%, var(--card-background));
+
+    .article-details {
+        height: auto;
+        min-height: 84px;
+        align-items: center;
+        justify-content: center;
+        padding: var(--spacing-lg) var(--spacing-xl);
+    }
+
+    .article-title {
+        font-size: 1.7rem;
+        font-weight: 600;
+        text-align: center;
+        color: var(--card-text-color-main);
+    }
+
+    transition: background-color 0.24s ease, transform 0.24s ease, box-shadow 0.24s ease;
+
+    &:hover {
+        background-color: color-mix(in srgb, var(--accent-color) 13%, var(--card-background));
+
+        .article-title {
+            color: var(--accent-color);
+        }
+    }
+}
+
+/* ── 页脚 ────────────────────────────────────────────────── */
+.copyright {
+    font-size: 1.3rem;
+    color: var(--card-text-color-tertiary);
+}
+
+.powerby {
+    font-size: 1.25rem;
+    color: var(--card-text-color-tertiary);
+    opacity: 0.85;
+}
+
+/* ── 交互细节 ────────────────────────────────────────────── */
+html {
+    scroll-behavior: smooth;
+}
+
+::selection {
+    background-color: color-mix(in srgb, var(--accent-color) 22%, transparent);
+    color: var(--card-text-color-main);
+}
+
+/* 键盘可达性：只在键盘聚焦时显示轮廓 */
+:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* 尊重"减少动效"的系统偏好 */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}

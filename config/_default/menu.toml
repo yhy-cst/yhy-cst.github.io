@@ -1,0 +1,28 @@
+# ─────────────────────────────────────────────────────────────
+#  左侧栏底部的社交图标
+#  想加更多图标：https://tabler-icons.io/  取名字填到 icon 即可
+# ─────────────────────────────────────────────────────────────
+
+[[social]]
+    identifier = "github"
+    name       = "GitHub"
+    url        = "https://github.com/你的用户名"
+
+    [social.params]
+        icon = "brand-github"
+
+[[social]]
+    identifier = "mail"
+    name       = "Email"
+    url        = "mailto:you@example.com"
+
+    [social.params]
+        icon = "messages"
+
+[[social]]
+    identifier = "rss"
+    name       = "RSS"
+    url        = "index.xml"
+
+    [social.params]
+        icon = "rss"
