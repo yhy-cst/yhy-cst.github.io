@@ -6,18 +6,20 @@
 [[social]]
     identifier = "github"
     name       = "GitHub"
-    url        = "https://github.com/你的用户名"
+    url        = "https://github.com/yhy-cst"
 
     [social.params]
         icon = "brand-github"
 
-[[social]]
-    identifier = "mail"
-    name       = "Email"
-    url        = "mailto:you@example.com"
-
-    [social.params]
-        icon = "messages"
+# 想显示邮箱就把下面这几行的注释去掉，并改成你的真实邮箱。
+# 注意别留着示例地址，否则访客点了会发到不存在的地方。
+# [[social]]
+#     identifier = "mail"
+#     name       = "Email"
+#     url        = "mailto:you@example.com"
+#
+#     [social.params]
+#         icon = "messages"
 
 [[social]]
     identifier = "rss"
