@@ -3,6 +3,15 @@
 基于 **Hugo** + **Stack 主题** 的静态博客，风格参照 [ovideros.site](https://ovideros.site/)。
 卡片式布局、明暗模式、归档、搜索、标签云、友链页都已经配好，开箱即用。
 
+**线上地址：https://yhy-cst.github.io/**
+仓库：https://github.com/yhy-cst/yhy-cst.github.io
+
+推送代码到 `main` 分支会自动构建部署（GitHub Actions）。
+
+> ⚠️ 本机直连 github.com 不通，本仓库已配置走本地代理（Clash 等，端口 7890）。
+> **推送/拉取前请确保代理软件在运行**，否则会卡住后报连接超时。
+> 该代理是仓库级配置，不影响其他项目；如需检查：`git config --get http.proxy`
+
 ---
 
 ## 一、先跑起来
@@ -298,6 +307,37 @@ $$
 > 并且站点代码需要公开。所以仓库请设为 **Public**——
 > 免费账号的 Private 仓库本来也用不了 Pages。
 > 仓库本身就是公开的，页脚也保留了主题署名，已满足协议要求。
+
+#### 常见问题：Actions 里每次都有个 "pages build and deployment" 失败
+
+**症状**：每次 push 后出现两条工作流，其中 `pages build and deployment` 失败，
+报错位置是 `Build with Jekyll`；自己的 `Deploy Hugo site to Pages` 却是成功的，网站也能访问。
+
+**原因**：这是 GitHub 内置的 Pages 构建器在跑（Jekyll），它不认识 Hugo 项目，必然失败。
+说明 Pages 的构建源还停留在旧模式（`build_type = legacy`），也就是「Deploy from a branch」。
+
+**解决**：把 Pages 构建源改成 GitHub Actions。两种办法：
+
+- 网页操作：仓库 **Settings → Pages → Build and deployment → Source** 选 **GitHub Actions**
+- 命令行（需要 token，`<user>` 换成你的用户名，`<token>` 换成有 repo 权限的 PAT）：
+
+  ```bash
+  curl -X PUT \
+    -H "Authorization: Bearer <token>" \
+    -H "Accept: application/vnd.github+json" \
+    https://api.github.com/repos/<user>/<user>.github.io/pages \
+    -d '{"build_type":"workflow"}'
+  ```
+
+检查当前是哪种模式：
+
+```bash
+curl -H "Authorization: Bearer <token>" \
+  https://api.github.com/repos/<user>/<user>.github.io/pages
+# build_type 为 workflow 就是对的；为 legacy 就会出现上面那个失败
+```
+
+改完之后再 push 一次，就不会再出现那条失败的 Jekyll 构建了。
 
 ### 方案 D：自己的服务器
 
